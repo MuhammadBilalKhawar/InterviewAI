@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-const API_BASE = "http://localhost:5000/api";
+const API_BASE = "https://interviewai-zmzj.onrender.com/api";
 
 export default function Practice() {
   const [questions, setQuestions] = useState([]);

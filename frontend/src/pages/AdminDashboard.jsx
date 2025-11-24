@@ -38,13 +38,13 @@ export default function AdminDashboard() {
   async function fetchStats() {
     try {
       const [questionsRes, usersRes, submissionsRes] = await Promise.all([
-        fetch("http://localhost:5000/api/questions/list", {
+        fetch("https://interviewai-zmzj.onrender.com/api/questions/list", {
           headers: { Authorization: `Bearer ${token}` },
         }),
-        fetch("http://localhost:5000/api/users/list", {
+        fetch("https://interviewai-zmzj.onrender.com/api/users/list", {
           headers: { Authorization: `Bearer ${token}` },
         }),
-        fetch("http://localhost:5000/api/answers/all", {
+        fetch("https://interviewai-zmzj.onrender.com/api/answers/all", {
           headers: { Authorization: `Bearer ${token}` },
         }),
       ]);
