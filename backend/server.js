@@ -13,7 +13,7 @@ const pdfRoutes = require("./routes/pdfRouter");
 const app = express();
 app.use(
   cors({
-    origin: "http://localhost:5173", // or your frontend port
+    origin: ["http://localhost:5173", "https://interview-ai-opal.vercel.app"], // or your frontend port
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],
     methods: ["GET", "POST", "PUT", "DELETE"],
