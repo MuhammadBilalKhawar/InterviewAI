@@ -37,12 +37,12 @@ export default function Login() {
     <div className="min-h-screen bg-gradient-to-r from-amber-900 via-black to-slate-950 text-white flex flex-col">
       <NavBar mode="auth" active="login" />
 
-      <main className="flex-1 flex flex-col items-center justify-center px-6">
+      <main className="flex-1 flex flex-col items-center justify-center px-3 sm:px-6 py-8 sm:py-12">
         <div className="max-w-xl w-full text-center">
-          <div className="flex justify-center mb-6">
-            <div className="w-12 h-12 bg-amber-500 rounded-lg flex items-center justify-center shadow-md shadow-amber-500/50">
+          <div className="flex justify-center mb-4 sm:mb-6">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-amber-500 rounded-lg flex items-center justify-center shadow-md shadow-amber-500/50">
               <svg
-                className="w-6 h-6 text-white"
+                className="w-5 h-5 sm:w-6 sm:h-6 text-white"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -58,13 +58,13 @@ export default function Login() {
             </div>
           </div>
 
-          <h1 className="text-4xl font-extrabold">Welcome Back</h1>
-          <p className="mt-2 text-slate-400">
+          <h1 className="text-2xl sm:text-4xl font-extrabold">Welcome Back</h1>
+          <p className="mt-2 text-xs sm:text-base text-slate-400">
             Sign in to your Interview Grader account
           </p>
 
-          <form onSubmit={handleSubmit} className="mt-8 mx-auto max-w-md">
-            <div className="bg-slate-900/50 rounded-2xl p-8 shadow-2xl ring-1 ring-amber-500/20 text-left">
+          <form onSubmit={handleSubmit} className="mt-6 sm:mt-8 mx-auto max-w-md">
+            <div className="bg-slate-900/50 rounded-2xl p-6 sm:p-8 shadow-2xl ring-1 ring-amber-500/20 text-left">
               {error && <div className="mb-4 text-rose-400">{error}</div>}
               <label className="block text-slate-300 text-sm mb-2">
                 Email Address

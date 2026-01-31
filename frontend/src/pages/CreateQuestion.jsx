@@ -60,9 +60,9 @@ export default function CreateQuestion() {
     <div className="min-h-screen bg-gradient-to-r from-amber-900 via-black to-slate-950 text-white">
       <NavBar mode="admin" active="create-question" />
 
-      <main className="max-w-4xl mx-auto px-6 py-12">
-        <h1 className="text-4xl font-extrabold mb-2 animate-fade-in">Create New Question</h1>
-        <p className="text-slate-400 mb-8 animate-slide-in-down" style={{ animationDelay: '0.1s' }}>
+      <main className="max-w-4xl mx-auto px-3 sm:px-6 py-8 sm:py-12">
+        <h1 className="text-2xl sm:text-4xl font-extrabold mb-2 animate-fade-in">Create New Question</h1>
+        <p className="text-sm sm:text-base text-slate-400 mb-8 animate-slide-in-down" style={{ animationDelay: '0.1s' }}>
           Add a new interview question to the database
         </p>
 

@@ -129,11 +129,11 @@ export default function Dashboard() {
         <h2 className="text-2xl sm:text-4xl font-extrabold">
           Welcome back, {user.name || "John"}
         </h2>
-        <p className="text-slate-300 mt-2 text-sm sm:text-base">
+        <p className="text-xs sm:text-base text-slate-300 mt-2">
           Track your progress and improve your interview skills
         </p>
 
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-4 gap-6 animate-fade-in">
+        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 animate-fade-in">
           <StatCard
             delay={0}
             icon={
@@ -216,7 +216,7 @@ export default function Dashboard() {
           />
         </div>
 
-        <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
           <div className="lg:col-span-2 bg-slate-900/50 rounded-xl p-6 ring-1 ring-amber-500/20 animate-slide-in-left hover:ring-amber-500/40 transition-all duration-300">
             <h3 className="text-xl font-semibold">Performance Metrics</h3>
             <div className="mt-6 space-y-4">

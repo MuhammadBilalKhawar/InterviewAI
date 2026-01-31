@@ -110,19 +110,19 @@ export default function ListQuestions() {
     <div className="min-h-screen bg-gradient-to-r from-amber-900 via-black to-slate-950 text-white">
       <NavBar mode="admin" active="list-questions" />
 
-      <main className="max-w-7xl mx-auto px-6 py-12">
-        <h1 className="text-4xl font-extrabold mb-2 animate-fade-in">Manage Questions</h1>
-        <p className="text-slate-400 mb-8 animate-slide-in-down" style={{ animationDelay: '0.1s' }}>
+      <main className="max-w-7xl mx-auto px-3 sm:px-6 py-8 sm:py-12">
+        <h1 className="text-2xl sm:text-4xl font-extrabold mb-2 animate-fade-in">Manage Questions</h1>
+        <p className="text-sm sm:text-base text-slate-400 mb-8 animate-slide-in-down" style={{ animationDelay: '0.1s' }}>
           View, edit, and delete interview questions
         </p>
 
-        <div className="mb-6 flex items-center gap-4 animate-scale-in" style={{ animationDelay: '0.2s' }}>
+        <div className="mb-6 flex flex-col sm:flex-row items-start sm:items-center gap-4 animate-scale-in" style={{ animationDelay: '0.2s' }}>
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search questions..."
-            className="w-full max-w-md px-4 py-2 rounded-md bg-slate-950/50 border border-amber-500/30 text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500"
+            className="w-full sm:max-w-md px-3 sm:px-4 py-2 rounded-md bg-slate-950/50 border border-amber-500/30 text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500 text-sm sm:text-base"
           />
         </div>
 
@@ -164,7 +164,7 @@ export default function ListQuestions() {
                       />
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-sm font-semibold text-slate-200 mb-2">
                           Category
@@ -178,7 +178,7 @@ export default function ListQuestions() {
                               category: e.target.value,
                             })
                           }
-                          className="w-full bg-slate-950/50 border border-amber-500/30 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-amber-500 text-white"
+                          className="w-full bg-slate-950/50 border border-amber-500/30 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-amber-500 text-white text-sm"
                         />
                       </div>
                       <div>
@@ -193,7 +193,7 @@ export default function ListQuestions() {
                               difficulty: e.target.value,
                             })
                           }
-                          className="w-full bg-slate-950/50 border border-amber-500/30 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-amber-500 text-white"
+                          className="w-full bg-slate-950/50 border border-amber-500/30 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-amber-500 text-white text-sm"
                         >
                           <option value="easy">Easy</option>
                           <option value="medium">Medium</option>
@@ -202,10 +202,10 @@ export default function ListQuestions() {
                       </div>
                     </div>
 
-                    <div className="flex gap-3 pt-2">
+                    <div className="flex flex-col sm:flex-row gap-3 pt-2">
                       <button
                         onClick={() => handleUpdate(question._id)}
-                        className="flex-1 bg-amber-500 hover:bg-amber-400 px-4 py-2 rounded-md text-black font-semibold"
+                        className="flex-1 bg-amber-500 hover:bg-amber-400 px-4 py-2 rounded-md text-black font-semibold text-sm"
                       >
                         Save
                       </button>
@@ -214,7 +214,7 @@ export default function ListQuestions() {
                           setEditingId(null);
                           setEditData({});
                         }}
-                        className="flex-1 bg-amber-500/20 hover:bg-amber-500/30 px-4 py-2 rounded-md text-amber-200 font-semibold border border-amber-500/30"
+                        className="flex-1 bg-amber-500/20 hover:bg-amber-500/30 px-4 py-2 rounded-md text-amber-200 font-semibold border border-amber-500/30 text-sm"
                       >
                         Cancel
                       </button>

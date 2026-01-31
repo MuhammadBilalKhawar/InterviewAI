@@ -1,7 +1,7 @@
 import React from "react";
 
 const baseContainer =
-  "max-w-7xl mx-auto px-3 sm:px-6 py-3 sm:py-4 flex justify-between items-center bg-black/40 backdrop-blur-md rounded-2xl border border-amber-500/20 shadow-lg shadow-black/40 flex-wrap gap-2 sm:gap-4";
+  "max-w-7xl mx-auto px-2 sm:px-3 md:px-6 py-2 sm:py-3 md:py-4 flex justify-between items-center bg-black/40 backdrop-blur-md rounded-2xl border border-amber-500/20 shadow-lg shadow-black/40 flex-wrap gap-2 sm:gap-3 md:gap-4";
 const pillBase =
   "px-2 sm:px-3 py-2 rounded-full transition text-xs sm:text-sm font-medium";
 const pillActive =

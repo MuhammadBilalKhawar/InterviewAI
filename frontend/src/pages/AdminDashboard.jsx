@@ -3,14 +3,14 @@ import NavBar from "../components/NavBar";
 
 function Stat({ title, value, icon, delay = 0 }) {
   return (
-    <div className="bg-slate-800/30 rounded-xl p-6 animate-slide-in-up hover:bg-slate-800/50 hover:ring-1 hover:ring-amber-500/20 transition-all duration-300" style={{ animationDelay: `${delay * 100}ms` }}>
-      <div className="flex items-start gap-4">
-        <div className="w-12 h-12 rounded-md bg-slate-900/50 flex items-center justify-center">
+    <div className="bg-slate-800/30 rounded-xl p-4 sm:p-6 animate-slide-in-up hover:bg-slate-800/50 hover:ring-1 hover:ring-amber-500/20 transition-all duration-300" style={{ animationDelay: `${delay * 100}ms` }}>
+      <div className="flex items-start gap-3 sm:gap-4">
+        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-md bg-slate-900/50 flex items-center justify-center flex-shrink-0">
           {icon}
         </div>
-        <div>
-          <div className="text-sm text-slate-300">{title}</div>
-          <div className="text-2xl font-bold">{value}</div>
+        <div className="min-w-0">
+          <div className="text-xs sm:text-sm text-slate-300">{title}</div>
+          <div className="text-lg sm:text-2xl font-bold break-words">{value}</div>
         </div>
       </div>
     </div>
@@ -107,13 +107,13 @@ export default function AdminDashboard() {
     <div className="min-h-screen bg-gradient-to-r from-amber-900 via-black to-slate-950 text-white">
       <NavBar mode="admin" active="admin" />
 
-      <main className="max-w-7xl mx-auto px-6 py-12">
-        <h1 className="text-4xl font-extrabold animate-fade-in">Admin Dashboard</h1>
-        <p className="text-slate-400 mt-2 animate-slide-in-down" style={{ animationDelay: '0.1s' }}>
+      <main className="max-w-7xl mx-auto px-3 sm:px-6 py-8 sm:py-12">
+        <h1 className="text-2xl sm:text-4xl font-extrabold animate-fade-in">Admin Dashboard</h1>
+        <p className="text-sm sm:text-base text-slate-400 mt-2 animate-slide-in-down" style={{ animationDelay: '0.1s' }}>
           Monitor and manage the Interview Grader platform
         </p>
 
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-4 gap-6 animate-scale-in" style={{ animationDelay: '0.2s' }}>
+        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 animate-scale-in" style={{ animationDelay: '0.2s' }}>
           <Stat
             title="Total Questions"
             value={stats.questions}
