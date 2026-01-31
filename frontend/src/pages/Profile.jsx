@@ -22,7 +22,7 @@ export default function Profile() {
         return;
       }
 
-      const response = await fetch('http://localhost:5000/api/users/profile', {
+      const response = await fetch('https://interviewai-zmzj.onrender.com/api/users/profile', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -60,7 +60,7 @@ export default function Profile() {
     
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/users/profile', {
+      const response = await fetch('https://interviewai-zmzj.onrender.com/api/users/profile', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -125,7 +125,7 @@ export default function Profile() {
       console.log('[Frontend] Uploading CV:', file.name, 'Size:', file.size);
 
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/users/profile/upload-cv', {
+      const response = await fetch('https://interviewai-zmzj.onrender.com/api/users/profile/upload-cv', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,

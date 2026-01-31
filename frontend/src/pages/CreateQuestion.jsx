@@ -87,7 +87,7 @@ export default function CreateQuestion() {
             if (!fileInput.files.length) return alert("Select a PDF file");
             const formData = new FormData();
             formData.append("pdf", fileInput.files[0]);
-            const res = await fetch("http://localhost:5000/api/pdf/upload", {
+            const res = await fetch("https://interviewai-zmzj.onrender.com/api/pdf/upload", {
               method: "POST",
               headers: { Authorization: `Bearer ${token}` },
               body: formData,

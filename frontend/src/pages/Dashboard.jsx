@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import NavBar from "../components/NavBar";
 
-const API_BASE = "http://localhost:5000/api";
+const API_BASE = "https://interviewai-zmzj.onrender.com/api";
 
 function StatCard({ icon, title, value, delay = 0 }) {
   return (
