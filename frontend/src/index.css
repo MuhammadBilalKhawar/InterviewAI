@@ -1,1 +1,297 @@
 @import "tailwindcss";
+
+html,
+body,
+#root {
+	height: 100%;
+	margin: 0;
+}
+
+body {
+	background: #000;
+	color: #fff;
+}
+
+/* Custom Animations */
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes slideInUp {
+	from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes slideInDown {
+	from {
+		opacity: 0;
+		transform: translateY(-20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes slideInLeft {
+	from {
+		opacity: 0;
+		transform: translateX(-20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+@keyframes slideInRight {
+	from {
+		opacity: 0;
+		transform: translateX(20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+@keyframes scaleIn {
+	from {
+		opacity: 0;
+		transform: scale(0.95);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+@keyframes pulse {
+	0%, 100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.5;
+	}
+}
+
+@keyframes shimmer {
+	0% {
+		background-position: -1000px 0;
+	}
+	100% {
+		background-position: 1000px 0;
+	}
+}
+
+@keyframes float {
+	0%, 100% {
+		transform: translateY(0px);
+	}
+	50% {
+		transform: translateY(-10px);
+	}
+}
+
+@keyframes glow {
+	0%, 100% {
+		box-shadow: 0 0 5px rgba(251, 191, 36, 0.3);
+	}
+	50% {
+		box-shadow: 0 0 20px rgba(251, 191, 36, 0.6);
+	}
+}
+
+@keyframes bounce-smooth {
+	0%, 100% {
+		transform: translateY(0);
+	}
+	50% {
+		transform: translateY(-5px);
+	}
+}
+
+@keyframes rotate-slow {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+/* Animation utility classes */
+.animate-fade-in {
+	animation: fadeIn 0.6s ease-out;
+}
+
+.animate-slide-in-up {
+	animation: slideInUp 0.5s ease-out;
+}
+
+.animate-slide-in-down {
+	animation: slideInDown 0.5s ease-out;
+}
+
+.animate-slide-in-left {
+	animation: slideInLeft 0.5s ease-out;
+}
+
+.animate-slide-in-right {
+	animation: slideInRight 0.5s ease-out;
+}
+
+.animate-scale-in {
+	animation: scaleIn 0.4s ease-out;
+}
+
+.animate-pulse-custom {
+	animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-float {
+	animation: float 3s ease-in-out infinite;
+}
+
+.animate-glow {
+	animation: glow 2s ease-in-out infinite;
+}
+
+.animate-bounce-smooth {
+	animation: bounce-smooth 2s ease-in-out infinite;
+}
+
+.animate-rotate-slow {
+	animation: rotate-slow 3s linear infinite;
+}
+
+/* Stagger animations */
+.stagger-1 {
+	animation-delay: 0.1s;
+}
+
+.stagger-2 {
+	animation-delay: 0.2s;
+}
+
+.stagger-3 {
+	animation-delay: 0.3s;
+}
+
+.stagger-4 {
+	animation-delay: 0.4s;
+}
+
+.stagger-5 {
+	animation-delay: 0.5s;
+}
+
+@keyframes shake {
+	0%, 100% {
+		transform: translateX(0);
+	}
+	10%, 30%, 50%, 70%, 90% {
+		transform: translateX(-5px);
+	}
+	20%, 40%, 60%, 80% {
+		transform: translateX(5px);
+	}
+}
+
+.animate-shake {
+	animation: shake 0.4s ease-in-out;
+}
+
+/* Smooth transitions for all interactive elements */
+button, 
+a,
+input,
+textarea,
+select {
+	transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Smooth hover effects */
+button:hover:not(:disabled) {
+	transform: translateY(-2px);
+}
+
+button:active:not(:disabled) {
+	transform: translateY(0);
+}
+
+/* Loading spinner with smooth animation */
+.spinner {
+	animation: rotate-slow 1s linear infinite;
+}
+
+/* Splash screen */
+.splash-overlay {
+	position: fixed;
+	inset: 0;
+	z-index: 9999;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(0, 0, 0, 0.7);
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
+	animation: splashFadeOut 0.4s ease-in-out 1.4s forwards;
+}
+
+.splash-content {
+	text-align: center;
+	color: #fff;
+	animation: splashZoomIn 0.7s ease-out;
+}
+
+.splash-title {
+	font-size: clamp(2.25rem, 4vw, 3.5rem);
+	font-weight: 800;
+	letter-spacing: 0.02em;
+	color: #fbbf24;
+	text-shadow: 0 0 24px rgba(251, 191, 36, 0.35);
+}
+
+.splash-subtitle {
+	margin-top: 0.75rem;
+	font-size: clamp(0.95rem, 2vw, 1.25rem);
+	color: rgba(255, 255, 255, 0.8);
+}
+
+.splash-blur {
+	filter: blur(8px);
+	transition: filter 0.4s ease-in-out;
+}
+
+@keyframes splashZoomIn {
+	0% {
+		opacity: 0;
+		transform: scale(0.92);
+	}
+	100% {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+@keyframes splashFadeOut {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+		visibility: hidden;
+	}
+}

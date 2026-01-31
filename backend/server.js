@@ -2,9 +2,12 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const session = require("express-session");
 const connectDB = require("./config/db");
+const passport = require("./config/passport");
 
 const authRoutes = require("./routes/authRouter");
+const oauthRoutes = require("./routes/oauthRouter");
 const questionRoutes = require("./routes/questionRouter");
 const answerRoutes = require("./routes/answerRouter");
 const userRoutes = require("./routes/userRouter");
@@ -19,6 +22,20 @@ app.use(
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
+
+// Session middleware (required for Passport)
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "your-session-secret",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+// Initialize Passport
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use("/api/pdf", pdfRoutes);
 app.use(express.json({ limit: "1mb" }));
 app.use(express.urlencoded({ extended: true }));
@@ -26,6 +43,7 @@ app.use(express.urlencoded({ extended: true }));
 connectDB();
 
 app.use("/api/auth", authRoutes);
+app.use("/api/oauth", oauthRoutes);
 app.use("/api/questions", questionRoutes);
 app.use("/api/answers", answerRoutes);
 app.use("/api/users", userRoutes);

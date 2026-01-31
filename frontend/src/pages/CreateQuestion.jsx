@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import NavBar from "../components/NavBar";
 
 const API_BASE = "https://interviewai-zmzj.onrender.com/api";
 
@@ -55,49 +56,24 @@ export default function CreateQuestion() {
     }
   }
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    window.location.href = "/";
-  };
-
   return (
-    <div className="min-h-screen bg-linear-to-b from-slate-900 via-slate-900 to-slate-800 text-white">
-      <header className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-        <div className="text-xl font-bold text-sky-400">InterviewAI</div>
-        <nav className="flex items-center gap-6">
-          <a href="/dashboard" className="text-slate-300">
-            Dashboard
-          </a>
-          <a href="/create-question" className="text-sky-300 font-medium">
-            Create Question
-          </a>
-          <a href="/list-questions" className="text-slate-300">
-            List Questions
-          </a>
-          <button
-            onClick={handleLogout}
-            className="text-slate-300 hover:text-red-400 text-sm"
-          >
-            Logout
-          </button>
-        </nav>
-      </header>
+    <div className="min-h-screen bg-gradient-to-r from-amber-900 via-black to-slate-950 text-white">
+      <NavBar mode="admin" active="create-question" />
 
       <main className="max-w-4xl mx-auto px-6 py-12">
-        <h1 className="text-4xl font-extrabold mb-2">Create New Question</h1>
-        <p className="text-slate-300 mb-8">
+        <h1 className="text-4xl font-extrabold mb-2 animate-fade-in">Create New Question</h1>
+        <p className="text-slate-400 mb-8 animate-slide-in-down" style={{ animationDelay: '0.1s' }}>
           Add a new interview question to the database
         </p>
 
         {error && (
-          <div className="mb-4 p-4 bg-red-700/30 border border-red-600 rounded text-red-300">
+          <div className="mb-4 p-4 bg-red-700/30 border border-red-600 rounded text-red-300 animate-shake">
             {error}
           </div>
         )}
 
         {success && (
-          <div className="mb-4 p-4 bg-emerald-700/30 border border-emerald-600 rounded text-emerald-300">
+          <div className="mb-4 p-4 bg-amber-500/15 border border-amber-500/30 rounded text-amber-200 animate-slide-in-down">
             {success}
           </div>
         )}
@@ -128,11 +104,11 @@ export default function CreateQuestion() {
             type="file"
             name="pdf"
             accept="application/pdf"
-            className="bg-slate-900 text-white px-2 py-1 rounded"
+            className="bg-slate-950/60 text-white px-2 py-1 rounded border border-amber-500/30"
           />
           <button
             type="submit"
-            className="bg-sky-600 text-white px-4 py-2 rounded"
+            className="bg-amber-500 hover:bg-amber-400 text-black px-4 py-2 rounded font-semibold"
           >
             Upload PDF Questions
           </button>
@@ -140,7 +116,7 @@ export default function CreateQuestion() {
 
         <form
           onSubmit={handleSubmit}
-          className="bg-slate-800/40 rounded-2xl p-8 ring-1 ring-slate-700 space-y-6"
+          className="bg-slate-900/50 rounded-2xl p-8 ring-1 ring-amber-500/20 space-y-6"
         >
           {/* Question Text */}
           <div>
@@ -151,7 +127,7 @@ export default function CreateQuestion() {
               value={text}
               onChange={(e) => setText(e.target.value)}
               placeholder="Enter the interview question..."
-              className="w-full min-h-[150px] resize-none bg-slate-900/30 border border-slate-700 rounded-md p-4 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500 text-white"
+              className="w-full min-h-[150px] resize-none bg-slate-950/50 border border-amber-500/30 rounded-md p-4 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-amber-500 text-white"
               required
             />
           </div>
@@ -166,7 +142,7 @@ export default function CreateQuestion() {
               value={category}
               onChange={(e) => setCategory(e.target.value)}
               placeholder="e.g., Data Structures, Algorithms, System Design"
-              className="w-full bg-slate-900/30 border border-slate-700 rounded-md p-3 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-sky-500 text-white"
+              className="w-full bg-slate-950/50 border border-amber-500/30 rounded-md p-3 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-amber-500 text-white"
               required
             />
           </div>
@@ -179,7 +155,7 @@ export default function CreateQuestion() {
             <select
               value={difficulty}
               onChange={(e) => setDifficulty(e.target.value)}
-              className="w-full bg-slate-900/30 border border-slate-700 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-sky-500 text-white"
+              className="w-full bg-slate-950/50 border border-amber-500/30 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-amber-500 text-white"
             >
               <option value="Easy">Easy</option>
               <option value="Medium">Medium</option>
@@ -192,7 +168,7 @@ export default function CreateQuestion() {
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 bg-sky-600 hover:bg-sky-700 disabled:opacity-50 px-6 py-3 rounded-md text-white font-semibold transition"
+              className="flex-1 bg-amber-500 hover:bg-amber-400 disabled:opacity-50 px-6 py-3 rounded-md text-black font-semibold transition"
             >
               {loading ? "Creating..." : "Create Question"}
             </button>
@@ -204,14 +180,14 @@ export default function CreateQuestion() {
                 setDifficulty("Medium");
                 setError("");
               }}
-              className="flex-1 bg-slate-700/60 hover:bg-slate-700/80 px-6 py-3 rounded-md text-white font-semibold transition"
+              className="flex-1 bg-amber-500/20 hover:bg-amber-500/30 px-6 py-3 rounded-md text-amber-200 font-semibold transition border border-amber-500/30"
             >
               Clear Form
             </button>
           </div>
         </form>
 
-        <div className="mt-8 p-6 bg-slate-800/20 rounded-xl border border-slate-700/50">
+        <div className="mt-8 p-6 bg-slate-900/40 rounded-xl border border-amber-500/20">
           <h3 className="text-lg font-semibold mb-3">
             Tips for creating good questions:
           </h3>

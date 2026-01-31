@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
+import NavBar from "../components/NavBar";
 
-function Stat({ title, value, icon }) {
+function Stat({ title, value, icon, delay = 0 }) {
   return (
-    <div className="bg-slate-800/30 rounded-xl p-6">
+    <div className="bg-slate-800/30 rounded-xl p-6 animate-slide-in-up hover:bg-slate-800/50 hover:ring-1 hover:ring-amber-500/20 transition-all duration-300" style={{ animationDelay: `${delay * 100}ms` }}>
       <div className="flex items-start gap-4">
         <div className="w-12 h-12 rounded-md bg-slate-900/50 flex items-center justify-center">
           {icon}
@@ -102,48 +103,24 @@ export default function AdminDashboard() {
     }
   }
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    window.location.href = "/";
-  };
-
   return (
-    <div className="min-h-screen bg-linear-to-b from-slate-900 via-slate-900 to-slate-800 text-white">
-      <header className="max-w-7xl mx-auto px-6 py-6 flex justify-between items-center">
-        <div className="text-xl font-bold text-sky-400">InterviewAI</div>
-        <nav className="flex items-center gap-6">
-          <a href="/dashboard" className="text-sky-300 font-medium">
-            Dashboard
-          </a>
-          <a href="/create-question" className="text-slate-300">
-            Create Question
-          </a>
-          <a href="/list-questions" className="text-slate-300">
-            List Questions
-          </a>
-          <button
-            onClick={handleLogout}
-            className="text-slate-300 hover:text-red-400 text-sm"
-          >
-            Logout
-          </button>
-        </nav>
-      </header>
+    <div className="min-h-screen bg-gradient-to-r from-amber-900 via-black to-slate-950 text-white">
+      <NavBar mode="admin" active="admin" />
 
       <main className="max-w-7xl mx-auto px-6 py-12">
-        <h1 className="text-4xl font-extrabold">Admin Dashboard</h1>
-        <p className="text-slate-300 mt-2">
+        <h1 className="text-4xl font-extrabold animate-fade-in">Admin Dashboard</h1>
+        <p className="text-slate-400 mt-2 animate-slide-in-down" style={{ animationDelay: '0.1s' }}>
           Monitor and manage the Interview Grader platform
         </p>
 
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-4 gap-6 animate-scale-in" style={{ animationDelay: '0.2s' }}>
           <Stat
             title="Total Questions"
             value={stats.questions}
+            delay={0}
             icon={
               <svg
-                className="w-6 h-6 text-sky-400"
+                className="w-6 h-6 text-amber-400"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -160,9 +137,10 @@ export default function AdminDashboard() {
           <Stat
             title="Total Users"
             value={stats.users}
+            delay={1}
             icon={
               <svg
-                className="w-6 h-6 text-emerald-400"
+                className="w-6 h-6 text-amber-400"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -181,7 +159,7 @@ export default function AdminDashboard() {
             value={stats.submissions}
             icon={
               <svg
-                className="w-6 h-6 text-pink-400"
+                className="w-6 h-6 text-amber-400"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -200,7 +178,7 @@ export default function AdminDashboard() {
             value={stats.avgScore + "%"}
             icon={
               <svg
-                className="w-6 h-6 text-orange-400"
+                className="w-6 h-6 text-amber-400"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -219,7 +197,7 @@ export default function AdminDashboard() {
         <div className="mt-8">
           <button
             onClick={() => (window.location.href = "/list-questions")}
-            className="bg-sky-500 text-white px-4 py-2 rounded-md"
+            className="bg-amber-500 hover:bg-amber-400 text-black px-4 py-2 rounded-md font-semibold"
           >
             Manage Questions
           </button>

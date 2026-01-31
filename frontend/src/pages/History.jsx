@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
+import NavBar from "../components/NavBar";
 
 const API_BASE = "https://interviewai-zmzj.onrender.com/api";
 
-function StatCard({ title, value }) {
+function StatCard({ title, value, delay = 0 }) {
   return (
-    <div className="bg-slate-800/30 rounded-xl p-6 mb-6">
+    <div className="bg-slate-800/30 rounded-xl p-6 mb-6 animate-slide-in-right hover:bg-slate-800/50 hover:ring-1 hover:ring-amber-500/20 transition-all duration-300" style={{ animationDelay: `${delay * 100}ms` }}>
       <div className="text-sm text-slate-300">{title}</div>
       <div className="text-2xl font-bold mt-4">{value}</div>
     </div>
@@ -51,48 +52,35 @@ export default function History() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-900 to-slate-800 text-white flex items-center justify-center">
-        <p className="text-lg text-slate-300">Loading history...</p>
+      <div className="min-h-screen bg-gradient-to-r from-amber-900 via-black to-slate-950 text-white flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 rounded-full border-4 border-slate-700 border-t-amber-500 animate-rotate-slow"></div>
+          <p className="text-lg text-slate-300">Loading history...</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-900 to-slate-800 text-white">
+    <div className="min-h-screen bg-gradient-to-r from-amber-900 via-black to-slate-950 text-white">
       {error && (
         <div className="max-w-7xl mx-auto px-6 py-4 bg-red-900/30 text-red-300 rounded-lg">
           {error}
         </div>
       )}
 
-      <header className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-        <div className="text-xl font-bold text-sky-400">InterviewAI</div>
-        <nav className="flex items-center gap-6">
-          <a href="/dashboard" className="text-slate-300">
-            Dashboard
-          </a>
-          <a href="/practice" className="text-slate-300">
-            Practice
-          </a>
-          <a href="/history" className="text-sky-300 font-medium">
-            History
-          </a>
-          <div className="w-8 h-8 rounded-full bg-sky-600 flex items-center justify-center">
-            J
-          </div>
-        </nav>
-      </header>
+      <NavBar mode="app" active="history" />
 
       <main className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <section className="lg:col-span-2">
-          <h1 className="text-4xl font-extrabold mb-6">Answer History</h1>
+        <section className="lg:col-span-2 animate-slide-in-left">
+          <h1 className="text-4xl font-extrabold mb-6 animate-fade-in">Answer History</h1>
 
           {answers.length === 0 ? (
-            <div className="bg-slate-800/40 rounded-2xl p-8 text-center text-slate-400">
+            <div className="bg-slate-800/40 rounded-2xl p-8 text-center text-slate-400 animate-scale-in hover:bg-slate-800/60 transition-all duration-300">
               <p>No answers yet. Start practicing to see your history!</p>
             </div>
           ) : (
-            <div className="bg-slate-800/40 rounded-2xl overflow-hidden ring-1 ring-slate-700">
+            <div className="bg-slate-800/40 rounded-2xl overflow-hidden ring-1 ring-slate-700 hover:ring-amber-500/20 transition-all duration-300 animate-scale-in">
               <table className="w-full text-left table-fixed">
                 <thead className="bg-slate-900/40 text-slate-300">
                   <tr>
@@ -104,10 +92,10 @@ export default function History() {
                 </thead>
 
                 <tbody className="text-slate-200 divide-y divide-slate-700">
-                  {answers.map((answer) => (
+                  {answers.map((answer, idx) => (
                     <tr
                       key={answer._id}
-                      className="align-top hover:bg-slate-700/20 transition"
+                      className="align-top hover:bg-slate-700/20 transition-all duration-300 hover:scale-105 animate-fade-in" style={{ animationDelay: `${idx * 50}ms` }}
                     >
                       <td className="px-6 py-5">
                         <div className="font-medium">
@@ -121,7 +109,7 @@ export default function History() {
                         {new Date(answer.createdAt).toLocaleDateString()}
                       </td>
                       <td className="px-6 py-5">
-                        <span className="inline-block bg-emerald-700/20 text-emerald-300 px-3 py-1 rounded-full text-sm font-medium">
+                        <span className="inline-block bg-amber-500/20 text-amber-200 px-3 py-1 rounded-full text-sm font-medium border border-amber-500/30">
                           {Math.round(answer.score.overall)}%
                         </span>
                       </td>
@@ -134,10 +122,10 @@ export default function History() {
         </section>
 
         <aside className="lg:col-span-1">
-          <StatCard title="Average Score" value={`${avgScore}%`} />
-          <StatCard title="Best Score" value={`${bestScore}%`} />
-          <StatCard title="Total Attempts" value={answers.length} />
-          <StatCard title="Lowest Score" value={`${worstScore}%`} />
+          <StatCard title="Average Score" value={`${avgScore}%`} delay={0} />
+          <StatCard title="Best Score" value={`${bestScore}%`} delay={1} />
+          <StatCard title="Total Attempts" value={answers.length} delay={2} />
+          <StatCard title="Lowest Score" value={`${worstScore}%`} delay={3} />
         </aside>
       </main>
     </div>

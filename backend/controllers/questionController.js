@@ -205,3 +205,52 @@ exports.delete = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+// Get recommended questions based on user interests
+exports.recommended = async (req, res) => {
+  try {
+    const User = require("../models/user");
+    const user = await User.findById(req.user.id);
+    
+    if (!user || !user.interests || user.interests.length === 0) {
+      // If no interests, return random questions
+      const questions = await Question.aggregate([
+        { $sample: { size: 4 } }
+      ]);
+      return res.json(questions);
+    }
+
+    // Build regex pattern to match any interest
+    const interestPattern = user.interests.map(interest => 
+      interest.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') // Escape special regex characters
+    ).join('|');
+
+    // Find questions where category or text matches any of the user's interests
+    const matchedQuestions = await Question.find({
+      $or: [
+        { category: { $regex: interestPattern, $options: 'i' } },
+        { text: { $regex: interestPattern, $options: 'i' } }
+      ]
+    }).limit(20); // Get more than needed for randomization
+
+    let selectedQuestions;
+    if (matchedQuestions.length >= 4) {
+      // Randomly select 4 from matched questions
+      selectedQuestions = matchedQuestions
+        .sort(() => Math.random() - 0.5)
+        .slice(0, 4);
+    } else {
+      // If not enough matched questions, fill with random ones
+      const remainingCount = 4 - matchedQuestions.length;
+      const randomQuestions = await Question.aggregate([
+        { $match: { _id: { $nin: matchedQuestions.map(q => q._id) } } },
+        { $sample: { size: remainingCount } }
+      ]);
+      selectedQuestions = [...matchedQuestions, ...randomQuestions];
+    }
+
+    res.json(selectedQuestions);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};

@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
+import NavBar from "../components/NavBar";
 
-const API_BASE = "https://interviewai-zmzj.onrender.com/api";
+const API_BASE = "http://localhost:5000/api";
 
-function StatCard({ icon, title, value }) {
+function StatCard({ icon, title, value, delay = 0 }) {
   return (
-    <div className="bg-slate-800/30 rounded-xl p-6 min-w-[12rem]">
-      <div className="flex items-start gap-4">
-        <div className="w-10 h-10 rounded-md bg-slate-900/50 flex items-center justify-center">
+    <div className="bg-slate-900/50 rounded-xl p-4 sm:p-6 min-w-[8rem] sm:min-w-[12rem] ring-1 ring-amber-500/20 hover:ring-amber-500/40 transition animate-slide-in-up" style={{ animationDelay: `${delay * 100}ms` }}>
+      <div className="flex items-start gap-3 sm:gap-4">
+        <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-md bg-amber-500/10 flex items-center justify-center flex-shrink-0">
           {icon}
         </div>
         <div>
-          <div className="text-sm text-slate-300">{title}</div>
-          <div className="text-2xl font-bold">{value}</div>
+          <div className="text-xs sm:text-sm text-slate-400">{title}</div>
+          <div className="text-lg sm:text-2xl font-bold text-amber-400">{value}</div>
         </div>
       </div>
     </div>
@@ -20,6 +21,7 @@ function StatCard({ icon, title, value }) {
 
 export default function Dashboard() {
   const [answers, setAnswers] = useState([]);
+  const [recommendedQuestions, setRecommendedQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
   const user = (() => {
     try {
@@ -32,6 +34,14 @@ export default function Dashboard() {
 
   useEffect(() => {
     fetchAnswers();
+    fetchRecommendedQuestions();
+
+    // Refresh recommendations when user returns to dashboard
+    const handleFocus = () => {
+      fetchRecommendedQuestions();
+    };
+    window.addEventListener('focus', handleFocus);
+    return () => window.removeEventListener('focus', handleFocus);
   }, []);
 
   async function fetchAnswers() {
@@ -47,6 +57,20 @@ export default function Dashboard() {
       console.error("Failed to fetch answers:", err);
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function fetchRecommendedQuestions() {
+    try {
+      const res = await fetch(`${API_BASE}/questions/recommended`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setRecommendedQuestions(data);
+      }
+    } catch (err) {
+      console.error("Failed to fetch recommended questions:", err);
     }
   }
 
@@ -98,48 +122,23 @@ export default function Dashboard() {
     : 0;
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-slate-900 via-slate-900 to-slate-800 text-white">
-      <header className="w-full">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-          <div className="text-xl font-bold text-sky-400">InterviewAI</div>
-          <nav className="flex items-center gap-6">
-            <a href="/dashboard" className="text-sky-300 font-medium">
-              Dashboard
-            </a>
-            <a href="/practice" className="text-slate-300">
-              Practice
-            </a>
-            <a href="/history" className="text-slate-300">
-              History
-            </a>
-            <div className="ml-4 flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-sky-600 flex items-center justify-center">
-                {(user.name || "")[0] || "J"}
-              </div>
-              <button
-                onClick={handleLogout}
-                className="ml-2 px-3 py-1 bg-slate-700/60 hover:bg-slate-700/80 rounded text-sm text-white"
-              >
-                Logout
-              </button>
-            </div>
-          </nav>
-        </div>
-      </header>
+    <div className="min-h-screen bg-gradient-to-r from-amber-900 via-black to-slate-950 text-white">
+      <NavBar mode="app" active="dashboard" />
 
-      <main className="max-w-7xl mx-auto px-6 py-12">
-        <h2 className="text-4xl font-extrabold">
+      <main className="max-w-7xl mx-auto px-3 sm:px-6 py-8 sm:py-12">
+        <h2 className="text-2xl sm:text-4xl font-extrabold">
           Welcome back, {user.name || "John"}
         </h2>
-        <p className="text-slate-300 mt-2">
+        <p className="text-slate-300 mt-2 text-sm sm:text-base">
           Track your progress and improve your interview skills
         </p>
 
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-4 gap-6 animate-fade-in">
           <StatCard
+            delay={0}
             icon={
               <svg
-                className="w-6 h-6 text-sky-400"
+                className="w-6 h-6 text-amber-400"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -156,9 +155,10 @@ export default function Dashboard() {
             value={totalAnswers}
           />
           <StatCard
+            delay={1}
             icon={
               <svg
-                className="w-6 h-6 text-emerald-400"
+                className="w-6 h-6 text-amber-400"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -175,9 +175,10 @@ export default function Dashboard() {
             value={`${avgScore}%`}
           />
           <StatCard
+            delay={2}
             icon={
               <svg
-                className="w-6 h-6 text-pink-400"
+                className="w-6 h-6 text-amber-400"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -194,9 +195,10 @@ export default function Dashboard() {
             value={lastPracticeDate}
           />
           <StatCard
+            delay={3}
             icon={
               <svg
-                className="w-6 h-6 text-orange-400"
+                className="w-6 h-6 text-amber-400"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -215,7 +217,7 @@ export default function Dashboard() {
         </div>
 
         <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2 bg-slate-800/30 rounded-xl p-6">
+          <div className="lg:col-span-2 bg-slate-900/50 rounded-xl p-6 ring-1 ring-amber-500/20 animate-slide-in-left hover:ring-amber-500/40 transition-all duration-300">
             <h3 className="text-xl font-semibold">Performance Metrics</h3>
             <div className="mt-6 space-y-4">
               <div>
@@ -225,7 +227,7 @@ export default function Dashboard() {
                 </div>
                 <div className="h-3 bg-slate-700 rounded-full mt-2">
                   <div
-                    className="h-3 bg-linear-to-r from-sky-500 to-indigo-400 rounded-full"
+                    className="h-3 bg-amber-500 rounded-full"
                     style={{ width: `${avgClarity}%` }}
                   ></div>
                 </div>
@@ -237,7 +239,7 @@ export default function Dashboard() {
                 </div>
                 <div className="h-3 bg-slate-700 rounded-full mt-2">
                   <div
-                    className="h-3 bg-linear-to-r from-sky-500 to-indigo-400 rounded-full"
+                    className="h-3 bg-amber-500 rounded-full"
                     style={{ width: `${avgRelevance}%` }}
                   ></div>
                 </div>
@@ -249,7 +251,7 @@ export default function Dashboard() {
                 </div>
                 <div className="h-3 bg-slate-700 rounded-full mt-2">
                   <div
-                    className="h-3 bg-linear-to-r from-sky-500 to-indigo-400 rounded-full"
+                    className="h-3 bg-amber-500 rounded-full"
                     style={{ width: `${avgDepth}%` }}
                   ></div>
                 </div>
@@ -261,7 +263,7 @@ export default function Dashboard() {
                 </div>
                 <div className="h-3 bg-slate-700 rounded-full mt-2">
                   <div
-                    className="h-3 bg-linear-to-r from-sky-500 to-indigo-400 rounded-full"
+                    className="h-3 bg-amber-500 rounded-full"
                     style={{ width: `${avgStructure}%` }}
                   ></div>
                 </div>
@@ -269,7 +271,7 @@ export default function Dashboard() {
             </div>
           </div>
 
-          <div className="bg-slate-800/30 rounded-xl p-6">
+          <div className="bg-slate-900/50 rounded-xl p-6 ring-1 ring-amber-500/20 animate-slide-in-right hover:ring-amber-500/40 transition-all duration-300">
             <div className="flex items-center justify-between">
               <h3 className="text-xl font-semibold">Quick Actions</h3>
               <button onClick={handleLogout} className="text-sm text-slate-300">
@@ -280,18 +282,74 @@ export default function Dashboard() {
             <div className="mt-6 space-y-4">
               <a
                 href="/practice"
-                className="block w-full text-left bg-linear-to-r from-sky-500 to-indigo-600 text-white py-3 rounded-md"
+                className="block w-full text-left bg-amber-500 hover:bg-amber-400 text-black py-3 rounded-md font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-amber-500/50 active:scale-95"
               >
                 Start Practice →
               </a>
               <a
-                href="#"
-                className="block w-full text-left bg-slate-900/30 text-white py-3 rounded-md"
+                href="/history"
+                className="block w-full text-left bg-slate-900/30 text-white py-3 rounded-md transition-all duration-300 hover:bg-slate-800/50 hover:translate-x-1 active:scale-95"
               >
                 View History →
               </a>
             </div>
           </div>
+        </div>
+
+        {/* Recommended Questions Section */}
+        <div className="mt-8 bg-slate-900/50 rounded-xl p-6 ring-1 ring-amber-500/20 animate-fade-in" style={{ animationDelay: '0.3s' }}>
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-2xl font-semibold">Recommended Questions for You</h3>
+            <a href="/profile" className="text-sm text-amber-400 hover:text-amber-300">
+              Update interests →
+            </a>
+          </div>
+          {recommendedQuestions.length === 0 ? (
+            <div className="text-center py-8">
+              <p className="text-slate-400 mb-4">
+                No recommendations yet. Add your interests in your profile to get personalized question recommendations!
+              </p>
+              <a
+                href="/profile"
+                className="inline-block bg-amber-500 hover:bg-amber-400 text-black px-6 py-2 rounded-md font-semibold"
+              >
+                Set Your Interests
+              </a>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {recommendedQuestions.map((question, index) => (
+                <div
+                  key={question._id}
+                  className={`bg-slate-800/50 rounded-lg p-5 hover:ring-2 hover:ring-amber-500/30 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-amber-500/20 animate-scale-in stagger-${(index % 5) + 1}`}
+                >
+                  <div className="flex items-start justify-between mb-3">
+                    <span
+                      className={`text-xs font-semibold px-3 py-1 rounded-full ${
+                        question.difficulty === "Easy"
+                          ? "bg-green-500/20 text-green-400"
+                          : question.difficulty === "Medium"
+                          ? "bg-yellow-500/20 text-yellow-400"
+                          : "bg-red-500/20 text-red-400"
+                      }`}
+                    >
+                      {question.difficulty}
+                    </span>
+                    <span className="text-xs text-amber-400 bg-amber-500/10 px-3 py-1 rounded-full">
+                      {question.category}
+                    </span>
+                  </div>
+                  <p className="text-white mb-4">{question.text}</p>
+                  <a
+                    href={`/practice?q=${question._id}`}
+                    className="inline-block text-sm text-amber-400 hover:text-amber-300 font-medium"
+                  >
+                    Practice this question →
+                  </a>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </main>
     </div>

@@ -7,6 +7,7 @@ const {
   update,
   delete: deleteQuestion,
   generateQuestionsAI,
+  recommended,
 } = require("../controllers/questionController");
 const { protect, adminOnly } = require("../middleware/authMiddleware");
 
@@ -15,6 +16,7 @@ router.post("/generate-ai-questions", generateQuestionsAI);
 
 router.get("/list", protect, list);
 router.get("/random", protect, random);
+router.get("/recommended", protect, recommended);
 router.post("/create", protect, adminOnly, create);
 router.put("/:id", protect, adminOnly, update);
 router.delete("/:id", protect, adminOnly, deleteQuestion);
