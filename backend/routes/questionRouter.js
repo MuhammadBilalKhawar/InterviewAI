@@ -6,8 +6,12 @@ const {
   random,
   update,
   delete: deleteQuestion,
+  generateQuestionsAI,
 } = require("../controllers/questionController");
 const { protect, adminOnly } = require("../middleware/authMiddleware");
+
+// Public endpoint for cron job (protected by secret header)
+router.post("/generate-ai-questions", generateQuestionsAI);
 
 router.get("/list", protect, list);
 router.get("/random", protect, random);
