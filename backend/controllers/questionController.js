@@ -94,15 +94,51 @@ Example output format:
       throw new Error("No valid questions after validation");
     }
 
-    console.log(`🔄 Inserting ${questionsWithMetadata.length} questions into database...`);
-    const created = await Question.insertMany(questionsWithMetadata);
+    // Check for duplicates before inserting
+    console.log(`🔍 Checking for duplicate questions...`);
+    const duplicateCheck = [];
+    const newQuestions = [];
+
+    for (const question of questionsWithMetadata) {
+      // Search for existing question with similar text (case-insensitive, partial match)
+      const existingQuestion = await Question.findOne({
+        text: { $regex: question.text.substring(0, 50), $options: "i" }
+      });
+
+      if (existingQuestion) {
+        console.warn(`⚠️ Duplicate found: "${question.text.substring(0, 60)}..."`);
+        duplicateCheck.push({
+          text: question.text.substring(0, 60),
+          status: "DUPLICATE",
+          existingId: existingQuestion._id
+        });
+      } else {
+        newQuestions.push(question);
+      }
+    }
+
+    console.log(`📊 Summary: ${newQuestions.length} new, ${duplicateCheck.length} duplicates`);
+
+    if (newQuestions.length === 0) {
+      return res.json({
+        success: true,
+        message: "All generated questions were duplicates. No new questions added.",
+        count: 0,
+        duplicates: duplicateCheck.length,
+        timestamp: new Date(),
+      });
+    }
+
+    console.log(`🔄 Inserting ${newQuestions.length} new questions into database...`);
+    const created = await Question.insertMany(newQuestions);
 
     console.log(`✅ Successfully created ${created.length} AI-generated questions`);
 
     res.json({
       success: true,
-      message: `Successfully generated and stored ${created.length} questions`,
+      message: `Successfully generated and stored ${created.length} questions (${duplicateCheck.length} duplicates filtered)`,
       count: created.length,
+      duplicatesFiltered: duplicateCheck.length,
       questions: created,
       timestamp: new Date(),
     });
