@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@google/genai": "^1.30.0",
+    "@google/genai": "^1.35.0",
     "@tailwindcss/cli": "^4.1.17",
     "axios": "^1.13.2",
     "bcryptjs": "^3.0.3",
